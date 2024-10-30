@@ -1,0 +1,75 @@
+build
+.vscode
+cmake-build-debug
+cmake-build-default
+cmake-build-release
+.idea
+*.iml
+.gradle/
+local.properties
+*.bat
+*.sh
+*.jar
+
+# Build directories
+/build/
+*/build/
+!gradlew
+!gradlew.bat
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Android specific
+.externalNativeBuild/
+.externalNativeBuild/**
+
+# ndk-build files
+obj/
+libs/
+
+# Gradle files
+.gradle/
+build/
+*/build/
+!gradlew
+!gradlew.bat
+gradle-app.setting
+
+# User-specific files
+.vscode/
+*.swp
+*.swo
+*.user
+*.user.*
+*.sublime-project
+*.sublime-workspace
+*.cxx
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+*.cache
+*.diff
+*.patch
+
+# Editor specific
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
