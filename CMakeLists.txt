@@ -19,7 +19,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             glfw
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(project_lib_include "E:/code/terminateProject")
+    set(project_lib_include "E:\\code\\LAB\\")
     include_directories(${project_lib_include}/dependInclude)
     link_directories(${project_lib_include}/dependLib)
     add_executable(LUI
