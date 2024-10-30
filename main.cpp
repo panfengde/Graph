@@ -1,5 +1,5 @@
 #include <iostream>
-#include <glad/glad.h>
+#include <glad/include/glad.h>
 #include <GLFW/glfw3.h>
 
 const unsigned int SCR_WIDTH = 800;

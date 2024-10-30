@@ -5,8 +5,17 @@ project(Graph)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include_directories(./include)
-file(GLOB_RECURSE INCLUDE_SOURCE_FILES "include/*.c" "include/*.cpp")
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    include_directories(./include/includePC)
+    file(GLOB_RECURSE INCLUDE_SOURCE_FILES "include/includePC/*.c" "include/includePC/*.cpp")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    include_directories(./include/includePC)
+    file(GLOB_RECURSE INCLUDE_SOURCE_FILES "include/includePC/*.c" "include/includePC/*.cpp")
+elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    include_directories(./include/includePhone)
+    file(GLOB_RECURSE INCLUDE_SOURCE_FILES "include/includePhone/*.c" "include/includePhone/*.cpp")
+endif ()
+
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     message(status "now is mac")
@@ -21,6 +30,8 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             glfw
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    include_directories(${CMAKE_BINARY_DIR}/configuration)
+
     set(project_lib_include "E:\\code\\LAB\\")
     include_directories(${project_lib_include}/dependInclude)
     link_directories(${project_lib_include}/dependLib)
@@ -32,8 +43,8 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
             glfw3
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
-    set(GLFM_HEADERS include/glfm.h)
-    set(GLFM_SRC include/glfmSource/glfm_internal.h include/glfmSource/glfm_android.c)
+    set(GLFM_HEADERS include/IncludePhone/glfm.h)
+    set(GLFM_SRC include/IncludePhone/glfmSource/glfm_internal.h include/IncludePhone/glfmSource/glfm_android.c)
     add_library(glfm ${GLFM_SRC} ${GLFM_HEADERS})
 
     find_library(log-lib log)
@@ -42,7 +53,7 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
     find_library(GLESv2-lib GLESv2)
     target_link_libraries(glfm ${log-lib} ${android-lib} ${EGL-lib} ${GLESv2-lib})
 
-    add_library(androidGraphEntry SHARED androidGraphEntry.cpp cppWithJava.cpp)
+    add_library(androidGraphEntry SHARED  ${INCLUDE_SOURCE_FILES} androidGraphEntry.cpp cppWithJava.cpp)
     target_include_directories(androidGraphEntry PUBLIC "include")
     target_link_libraries(androidGraphEntry glfm)
 endif ()

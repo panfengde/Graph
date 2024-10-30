@@ -83,9 +83,16 @@ void testCppWithJava(){
     CrossPlatformPrint(test);
 }
 
+void setBool(const std::string &name, bool value)  {
+    glUniform1i(glGetUniformLocation(0, name.c_str()), (int) value);
+}
+
 void glfmMain(GLFMDisplay *display) {
     testCppWithJava();
-
+    CrossPlatformPrint("go-okoko--------------------");
+    CrossPlatformPrint("go-okoko--------------------");
+    CrossPlatformPrint("go-okoko--------------------");
+    CrossPlatformPrint("go-okoko--------------------");
     TouchApp *app = static_cast<TouchApp *>(calloc(1, sizeof(TouchApp)));
 
     glfmSetDisplayConfig(display,
@@ -102,5 +109,3 @@ void glfmMain(GLFMDisplay *display) {
     glfmSetSurfaceDestroyedFunc(display, onSurfaceDestroyed);
     glfmSetRenderFunc(display, onDraw);
 }
-
-
