@@ -14,6 +14,14 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
+// glfw: whenever the window needs to be refreshed (e.g., resized, uncovered, etc.), this callback executes
+void window_refresh_callback(GLFWwindow* window) {
+    // Render here as needed
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glfwSwapBuffers(window);
+}
+
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window) {
@@ -42,6 +50,7 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetWindowRefreshCallback(window, window_refresh_callback); // Set refresh callback
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------

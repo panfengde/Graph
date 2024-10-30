@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.28)
+
+cmake_minimum_required(VERSION 3.18.0)
+
 project(Graph)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -22,18 +24,27 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(project_lib_include "E:\\code\\LAB\\")
     include_directories(${project_lib_include}/dependInclude)
     link_directories(${project_lib_include}/dependLib)
-    add_executable(LUI
+    add_executable(Graph
             ${INCLUDE_SOURCE_FILES}
             main.cpp
     )
-    target_link_libraries(LUI
+    target_link_libraries(Graph
             glfw3
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
     set(GLFM_HEADERS include/glfm.h)
-    set(GLFM_SRC src/glfm_internal.h src/glfm_android.c)
+    set(GLFM_SRC include/glfmSource/glfm_internal.h include/glfmSource/glfm_android.c)
     add_library(glfm ${GLFM_SRC} ${GLFM_HEADERS})
-    add_library(Entry SHARED main.cpp)
+
+    find_library(log-lib log)
+    find_library(android-lib android)
+    find_library(EGL-lib EGL)
+    find_library(GLESv2-lib GLESv2)
+    target_link_libraries(glfm ${log-lib} ${android-lib} ${EGL-lib} ${GLESv2-lib})
+
+    add_library(androidGraphEntry SHARED androidGraphEntry.cpp cppWithJava.cpp)
+    target_include_directories(androidGraphEntry PUBLIC "include")
+    target_link_libraries(androidGraphEntry glfm)
 endif ()
 
 
