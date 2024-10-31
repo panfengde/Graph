@@ -1,6 +1,7 @@
 #include <iostream>
-#include <glad/include/glad.h>
+#include <glad/include/glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "tool/shader_m.h"
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -54,9 +55,9 @@ int main()
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
+
+    if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress)) {
+            std::cerr << "Failed to initialize GLAD" << std::endl;
     }
 
     // render loop
