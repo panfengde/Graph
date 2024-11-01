@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "glfm.h"
+#include "GraphAPI/Shader.h"
+#include "GraphAPI/GraphAPI.h"
 #include "./registerMethod/registerMethod.h"
 
 typedef struct {
@@ -91,17 +93,16 @@ void glfmMain(GLFMDisplay *display) {
     testCppWithJava();
     CrossPlatformPrint("go-okoko--------------------");
     CrossPlatformPrint("go-okoko--------------------");
-    CrossPlatformPrint("go-okoko--------------------");
-    CrossPlatformPrint("go-okoko--------------------");
-    TouchApp *app = static_cast<TouchApp *>(calloc(1, sizeof(TouchApp)));
+
+    /*TouchApp *app = static_cast<TouchApp *>(calloc(1, sizeof(TouchApp)));
 
     glfmSetDisplayConfig(display,
                          GLFMRenderingAPIOpenGLES32,
                          GLFMColorFormatRGBA8888,
                          GLFMDepthFormatNone,
                          GLFMStencilFormatNone,
-                         GLFMMultisampleNone);
-
+                         GLFMMultisampleNone);*/
+    auto app = (TouchApp *)Graph::createWindow(display,0, 0);
 
     glfmSetUserData(display, app);
     glfmSetSurfaceCreatedFunc(display, onSurfaceCreated);
