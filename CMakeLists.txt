@@ -29,7 +29,6 @@ message("${SRC_FILES}")
 file(GLOB_RECURSE TOOL_SRC_FILES "${CMAKE_SOURCE_DIR}/tool/*.cpp")
 add_library(toolModule STATIC ${TOOL_SRC_FILES})
 
-
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     message(status "now is mac")
     set(CMAKE_OSX_DEPLOYMENT_TARGET "11.5")
@@ -42,6 +41,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             main.cpp)
     target_link_libraries(Graph
             "-framework Foundation"
+            toolModule
             glfw
     )
 

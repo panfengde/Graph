@@ -4,6 +4,7 @@
 
 #include "plantformAPI.h"
 #include <iostream>
+#include <filesystem>
 //不能在头文件引用下面的include，因为byte重复定义了
 #ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
@@ -15,6 +16,8 @@
 #else
 #endif
 
+
+namespace fs = std::filesystem;
 std::string getSaticResourcesPath() {
     static std::string result;
 #ifdef __APPLE__
@@ -36,7 +39,7 @@ std::string getSaticResourcesPath() {
     if (result.empty()) {
         TCHAR szPath[MAX_PATH];
         GetModuleFileName(nullptr, szPath, MAX_PATH);
-        result = string(szPath);
+        result = std::string(szPath);
 
         fs::path exePath(szPath);
         if (fs::exists(exePath.parent_path() / "LUI")) {
