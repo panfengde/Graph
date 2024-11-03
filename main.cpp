@@ -38,6 +38,7 @@ int main()
 {
     testAPI();
     aWindow = Graph::createWindow(nullptr,SCR_WIDTH, SCR_HEIGHT);
+
     auto window = reinterpret_cast<GLFWwindow*>(aWindow);
     if (window == NULL)
     {
@@ -45,7 +46,6 @@ int main()
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetWindowRefreshCallback(window, window_refresh_callback); // Set refresh callback
 
