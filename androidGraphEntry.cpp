@@ -1,5 +1,6 @@
 // Example app that draws a cube.
 // The cube can be rotated via touch, scroll wheel, or keyboard arrow keys.
+#include <gles3/gl32.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -103,6 +104,30 @@ void glfmMain(GLFMDisplay *display) {
                          GLFMStencilFormatNone,
                          GLFMMultisampleNone);*/
     auto app = (TouchApp *)Graph::createWindow(display,0, 0);
+
+    float vertices[] = {
+            1, 1, 1.0f, 0.0f, 1.0f,
+            1, 1, 1.0f, 0.0f, 1.0f,
+            1, 1, 1.0f, 0.0f, 1.0f,
+            1, 1, 1.0f, 0.0f, 1.0f,
+    };
+
+    unsigned int indices[] = {
+            0, 1, 3, // first triangle
+            1, 2, 3 // second triangle
+    };
+    unsigned int VAO,VBO,EBO;
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glfmSetUserData(display, app);
     glfmSetSurfaceCreatedFunc(display, onSurfaceCreated);
