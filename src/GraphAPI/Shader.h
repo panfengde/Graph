@@ -10,13 +10,7 @@
 #include "plantformAPI/plantformAPI.h"
 #include <glm/glm.hpp>
 #include <filesystem>
-#if defined(__ANDROID__)
-#include "glfm.h"
-#include <gles3/gl32.h>
-#else
-#include <glad/include/glad/glad.h>
-#include <GLFW/glfw3.h>
-#endif
+#include "GraphEnv.h"
 
 namespace fs = std::filesystem;
 

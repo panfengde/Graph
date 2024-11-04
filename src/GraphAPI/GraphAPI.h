@@ -5,12 +5,7 @@
 #ifndef GRAPHAPI_H
 #define GRAPHAPI_H
 #include <functional>
-#if defined(__ANDROID__)
-#include "glfm.h"
-#else
-#include <glad/include/glad/glad.h>
-#include <GLFW/glfw3.h>
-#endif
+#include "GraphEnv.h"
 
 
 

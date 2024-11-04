@@ -1,6 +1,5 @@
 #include <iostream>
-#include <glad/include/glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "GraphEnv.h"
 #include "GraphAPI/Shader.h"
 #include "GraphAPI/GraphAPI.h"
 
@@ -36,17 +35,13 @@ void processInput(GLFWwindow* window)
 
 int main()
 {
+
     testAPI();
     aWindow = Graph::createWindow(nullptr, SCR_WIDTH, SCR_HEIGHT);
 
     auto window = reinterpret_cast<GLFWwindow*>(aWindow);
 
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
+
     auto aShader = new Graph::Shader("vertexShader.vs", "fragmentShader.fs");
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     // glad: load all OpenGL function pointers

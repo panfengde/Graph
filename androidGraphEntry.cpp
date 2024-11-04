@@ -1,10 +1,9 @@
 // Example app that draws a cube.
 // The cube can be rotated via touch, scroll wheel, or keyboard arrow keys.
-#include <gles3/gl32.h>
+#include "GraphEnv.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "glfm.h"
 #include "GraphAPI/Shader.h"
 #include "plantformAPI/plantformAPI.h"
 #include "GraphAPI/GraphAPI.h"
@@ -57,7 +56,7 @@ static void onSurfaceDestroyed(GLFMDisplay *display) {
 
 static void draw(TouchApp *app, int width, int height) {
     if(aShader== nullptr){
-        aShader = new Graph::Shader("vertexShader.vs","fragmentShader.fs");
+        aShader = new Graph::Shader("vertexShader_es.vs","fragmentShader_es.fs");
 
         float vertices[] = {
                 -0.5f, -0.5f, 0.0f, // left
