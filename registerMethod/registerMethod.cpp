@@ -73,5 +73,26 @@ Java_com_pf_androidlui_MainActivity_stringFromJNI(
     return env->NewStringUTF(hello.c_str());
 }
 
+class AndroidLogStreambuf : public std::streambuf {
+public:
+    // 重载 overflow 函数
+    int overflow(int c) override {
+        if (c == '\n') {
+            __android_log_print(ANDROID_LOG_INFO, "NativeLib", "%s", buffer.c_str());
+            buffer.clear();
+        } else {
+            buffer += static_cast<char>(c);
+        }
+        return c;
+    }
+private:
+    std::string buffer;  // 用于临时存储输出内容
+};
+AndroidLogStreambuf androidLogStreambuf;
+std::ostream androidLogStream(&androidLogStreambuf);
 
+extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
+    std::cout.rdbuf(androidLogStream.rdbuf());  // 重定向 std::cout
+    return JNI_VERSION_1_6;
+}
 

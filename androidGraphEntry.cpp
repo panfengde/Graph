@@ -51,6 +51,30 @@ static void onSurfaceDestroyed(GLFMDisplay *display) {
 }
 
 static void draw(TouchApp *app, int width, int height) {
+    float vertices[] = {
+            1, 1, 1.0f, 0.0f, 1.0f,
+            1, 1, 1.0f, 0.0f, 1.0f,
+            1, 1, 1.0f, 0.0f, 1.0f,
+            1, 1, 1.0f, 0.0f, 1.0f,
+    };
+
+    unsigned int indices[] = {
+            0, 1, 3, // first triangle
+            1, 2, 3 // second triangle
+    };
+    unsigned int VAO,VBO,EBO;
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     static float rNumber = 0.0f;
     static float gNumber = 0.0f;
     static float bNumber = 0.0f;
@@ -105,29 +129,7 @@ void glfmMain(GLFMDisplay *display) {
                          GLFMMultisampleNone);*/
     auto app = (TouchApp *)Graph::createWindow(display,0, 0);
 
-    float vertices[] = {
-            1, 1, 1.0f, 0.0f, 1.0f,
-            1, 1, 1.0f, 0.0f, 1.0f,
-            1, 1, 1.0f, 0.0f, 1.0f,
-            1, 1, 1.0f, 0.0f, 1.0f,
-    };
 
-    unsigned int indices[] = {
-            0, 1, 3, // first triangle
-            1, 2, 3 // second triangle
-    };
-    unsigned int VAO,VBO,EBO;
-
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glfmSetUserData(display, app);
     glfmSetSurfaceCreatedFunc(display, onSurfaceCreated);
