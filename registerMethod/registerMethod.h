@@ -16,7 +16,6 @@
 
 std::string readAssetFile(const char *filename);
 
-
 void CrossPlatformPrint(const std::string& message) ;
 
 

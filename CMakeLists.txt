@@ -60,6 +60,8 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
             glfw3
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Android")
+    include_directories("${CMAKE_SOURCE_DIR}/registerMethod")
+
     set(GLFM_HEADERS include/IncludePhone/glfm.h)
     set(GLFM_SRC include/IncludePhone/glfmSource/glfm_internal.h include/IncludePhone/glfmSource/glfm_android.c)
 

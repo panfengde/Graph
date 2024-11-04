@@ -37,18 +37,18 @@ void processInput(GLFWwindow* window)
 int main()
 {
     testAPI();
-    aWindow = Graph::createWindow(nullptr,SCR_WIDTH, SCR_HEIGHT);
+    aWindow = Graph::createWindow(nullptr, SCR_WIDTH, SCR_HEIGHT);
 
     auto window = reinterpret_cast<GLFWwindow*>(aWindow);
+
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
+    auto aShader = new Graph::Shader("vertexShader.vs", "fragmentShader.fs");
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetWindowRefreshCallback(window, window_refresh_callback); // Set refresh callback
-
     // glad: load all OpenGL function pointers
     // ---------------------------------------
 
@@ -57,14 +57,37 @@ int main()
         std::cerr << "Failed to initialize GLAD" << std::endl;
     }
 
+
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f, // left
+        0.5f, -0.5f, 0.0f, // right
+        0.0f, 0.5f, 0.0f // top
+    };
+
+    //顶点缓冲对象(Vertex Buffer Objects, VBO)
+    unsigned int VBO, VAO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
     // render loop
-    // -----------
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         // input
         // -----
+        aShader->use();
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         processInput(window);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

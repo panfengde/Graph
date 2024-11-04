@@ -36,6 +36,23 @@ void* Graph::createWindow(void*display, unsigned int SCR_WIDTH,unsigned int SCR_
     auto aDisplay=(GLFMDisplay *)display;
 
     TouchApp *app = static_cast<TouchApp *>(calloc(1, sizeof(TouchApp)));
+    //颜色混合
+    glEnable(GL_BLEND);
+    //glEnable(GL_CULL_FACE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // glEnable(GL_LINE_SMOOTH);//开启抗锯齿功能
+
+    // glEnable(GL_DEPTH_TEST);
+
+    //glEnable(GL_CULL_FACE);//开启表⾯面剔除(默认背⾯面剔除)
+    /*//裁剪测试设置
+    glScissor(0, 0, 500, 500);
+    glEnable(GL_SCISSOR_TEST);*/
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
     glfmSetDisplayConfig(aDisplay,
                          GLFMRenderingAPIOpenGLES32,
                          GLFMColorFormatRGBA8888,
@@ -51,7 +68,7 @@ void* Graph::createWindow(void*display,unsigned int SCR_WIDTH,unsigned int SCR_H
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__

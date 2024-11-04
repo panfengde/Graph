@@ -6,8 +6,13 @@
 #include <stdlib.h>
 #include "glfm.h"
 #include "GraphAPI/Shader.h"
+#include "plantformAPI/plantformAPI.h"
 #include "GraphAPI/GraphAPI.h"
-#include "./registerMethod/registerMethod.h"
+#include "registerMethod.h"
+
+Graph::Shader* aShader;
+//顶点缓冲对象(Vertex Buffer Objects, VBO)
+unsigned int VBO, VAO;
 
 typedef struct {
     GLuint program;
@@ -51,50 +56,44 @@ static void onSurfaceDestroyed(GLFMDisplay *display) {
 }
 
 static void draw(TouchApp *app, int width, int height) {
-    float vertices[] = {
-            1, 1, 1.0f, 0.0f, 1.0f,
-            1, 1, 1.0f, 0.0f, 1.0f,
-            1, 1, 1.0f, 0.0f, 1.0f,
-            1, 1, 1.0f, 0.0f, 1.0f,
-    };
+    if(aShader== nullptr){
+        aShader = new Graph::Shader("vertexShader.vs","fragmentShader.fs");
 
-    unsigned int indices[] = {
-            0, 1, 3, // first triangle
-            1, 2, 3 // second triangle
-    };
-    unsigned int VAO,VBO,EBO;
+        float vertices[] = {
+                -0.5f, -0.5f, 0.0f, // left
+                0.5f, -0.5f, 0.0f, // right
+                0.0f, 0.5f, 0.0f // top
+        };
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
 
-    glBindVertexArray(VAO);
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
 
-    static float rNumber = 0.0f;
-    static float gNumber = 0.0f;
-    static float bNumber = 0.0f;
-    rNumber += 0.002;
-    gNumber += 0.004;
-    bNumber += 0.006;
-    if (rNumber > 1)rNumber = 0;
-    if (gNumber > 1)gNumber = 0;
-    if (bNumber > 1)bNumber = 0;
-    // Draw background
     glViewport(0, 0, width, height);
-    glClearColor(rNumber, gNumber, bNumber, 1.0f);
+    glClearColor(0.9f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+    // input
+    // -----
+    aShader->use();
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    // Draw background
 }
 
 static void onDraw(GLFMDisplay *display) {
     TouchApp *app = static_cast<TouchApp *>(glfmGetUserData(display));
     if (app->needsRedraw) {
         app->needsRedraw = true;
-
         int width, height;
         glfmGetDisplaySize(display, &width, &height);
         draw(app, width, height);
@@ -119,6 +118,11 @@ void glfmMain(GLFMDisplay *display) {
     CrossPlatformPrint("go-okoko--------------------");
     CrossPlatformPrint("go-okoko--------------------");
 
+
+    auto result = CrossPlatformReadFile("labCode.lab");
+    std::cout << "result:" << std::endl;
+    std::cout << result << std::endl;
+
     /*TouchApp *app = static_cast<TouchApp *>(calloc(1, sizeof(TouchApp)));
 
     glfmSetDisplayConfig(display,
@@ -132,7 +136,9 @@ void glfmMain(GLFMDisplay *display) {
 
 
     glfmSetUserData(display, app);
-    glfmSetSurfaceCreatedFunc(display, onSurfaceCreated);
+    //glfmSetSurfaceCreatedFunc(display, onSurfaceCreated);
+
+
     glfmSetSurfaceRefreshFunc(display, onSurfaceRefresh);
     glfmSetSurfaceDestroyedFunc(display, onSurfaceDestroyed);
     glfmSetRenderFunc(display, onDraw);
