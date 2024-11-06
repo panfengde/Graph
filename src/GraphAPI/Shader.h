@@ -21,20 +21,25 @@ public:
 
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
-    Shader(const std::string _vertexPath, const std::string _fragmentPath, const char* geometryPath = nullptr)
+    Shader(std::string _vertexPath, std::string _fragmentPath)
     {
-        std::string vertexCode = CrossPlatformReadFile(_vertexPath.c_str());
-        std::string fragmentCode = CrossPlatformReadFile(_fragmentPath.c_str());
-        std::cout << vertexCode << std::endl;
-        std::cout << fragmentCode << std::endl;
-        const char* vShaderCode = vertexCode.c_str();
-        const char* fShaderCode = fragmentCode.c_str();
+        // auto LUIResourcesPath = LUIGlobalObj->staticResourcePath;
+#ifdef __ANDROID__
+        auto LUIResourcesPath = getLUIResourcesPath();
+        _vertexPath = fs::path(LUIResourcesPath + "shaders/" + _vertexPath).string();
+        _fragmentPath = fs::path(LUIResourcesPath + "shaders/" + _fragmentPath).string();
+#endif
 
+        auto vShaderCodeStr = CrossPlatformReadFile(_vertexPath.c_str());
+        auto fShaderCodeStr = CrossPlatformReadFile(_fragmentPath.c_str());
+        std::cout<<vShaderCodeStr<<std::endl;
+        std::cout<<fShaderCodeStr<<std::endl;
+        auto vShaderCode = vShaderCodeStr.c_str();
+        auto fShaderCode = fShaderCodeStr.c_str();
         // 2. compile shaders
         unsigned int vertex, fragment;
         // vertex shader
         vertex = glCreateShader(GL_VERTEX_SHADER);
-
         glShaderSource(vertex, 1, &vShaderCode, NULL);
         glCompileShader(vertex);
         checkCompileErrors(vertex, "VERTEX");
@@ -43,8 +48,7 @@ public:
         glShaderSource(fragment, 1, &fShaderCode, NULL);
         glCompileShader(fragment);
         checkCompileErrors(fragment, "FRAGMENT");
-
-        // shader Program
+        unsigned int geometry;
         ID = glCreateProgram();
         glAttachShader(ID, vertex);
         glAttachShader(ID, fragment);

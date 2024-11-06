@@ -103,7 +103,9 @@ static void onDraw(GLFMDisplay *display) {
 void testCppWithJava(){
     CrossPlatformPrint("go---------------------");
     std::string hello = readAssetFile("labCode.lab");
+    std::string xxxx = readAssetFile("shaders/vertexShader_es.vs");
     CrossPlatformPrint(hello);
+    CrossPlatformPrint(xxxx);
     std::string test("1----------------------glfmMain------------------");
     CrossPlatformPrint(test);
 }

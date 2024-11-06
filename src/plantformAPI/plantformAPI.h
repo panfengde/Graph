@@ -14,7 +14,7 @@
 #endif
 
 
-std::string getSaticResourcesPath();
+std::string getLUIResourcesPath();
 
 std::string getExecutablePath();
 

@@ -18,7 +18,7 @@
 
 namespace fs = std::filesystem;
 
-std::string getSaticResourcesPath()
+std::string getLUIResourcesPath()
 {
     static std::string result;
 #ifdef __APPLE__
@@ -54,8 +54,8 @@ std::string getSaticResourcesPath()
         }
     }
     return result;
-#else
-
+#else defined(__ANDROID__)
+    return result;
 #endif
 };
 
